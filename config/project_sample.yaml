@@ -1,0 +1,33 @@
+
+# For refernce, this is what a typical Actionscript 3 project Flakefile might look like
+
+build:
+
+	movie:
+	   width:  640
+	   height: 480
+	   fps:    30
+	   bg:     "#FFFFFF"
+
+   entry:  Main.as
+   output: bin/MyProject.swf
+   flash-version:  10
+   
+   defines: [USE_FAST_CODE]
+   
+   cmds-before: ["cloc --out=Lines.txt ./src"]
+   cmds-after:  []
+   
+   classpaths: ["src"]
+   
+   targets:
+      debug:
+         defines: [DEBUG, TRACE_STUFF]
+      release:
+         cms-after: ["sh do_release_stuff.sh"]
+      
+run:
+   capture-traces: on
+   launch-type: player # or browser
+   
+   

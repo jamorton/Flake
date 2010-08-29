@@ -1,0 +1,43 @@
+
+# These are the defaults for a project's configuration that are
+# automatically loaded, and then overridden by the project's settings
+
+verbose: on
+
+build:
+   movie:
+      width:  640
+      height: 480
+      fps:    30
+      bg:     "#FFFFFF"
+
+   entry:  Main.as
+   output: out.swf
+   flash-version:  10
+   
+   defines: []
+   classpaths: []
+   
+   cmds-before: []
+   cmds-after:  []
+   
+   mxmlc-options:
+  
+   default_target: debug
+   
+   debug: on
+   
+   targets:
+      debug:
+         debug: on
+      release:
+         debug: off
+      
+run:
+   capture-traces: on
+   trace-outputs:
+     - file: trace.txt
+     - stdout
+   launch-type: player # or browser
+   
+   
