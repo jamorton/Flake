@@ -34,9 +34,7 @@ class FlakeProject(object):
 			error("You have not set the path to your Flex SDK. Please do so by editing" +
 			"the .flakeconfig file in your home directory")
 		self.flex_path = fp
-		try:
-			open(self.get_flex_path("frameworks", "flex-config.xml"), "r").close()
-		except IOError:
+		if not os.path.isfile(self.get_flex_path("frameworks", "flex-config.xml")):
 			error("The flex SDK path you specified is invalid; a proper SDK was not found there")
 		
 	def get_flex_path(self, *args):
@@ -49,8 +47,8 @@ class FlakeProject(object):
 		mxmlc_bin = self.get_flex_path("bin", "mxmlc")
 		flags = ""
 		if len(self.mxmlc_flags):
-			flags = " " + " ".join(self.mxmlc_flags)
-		cmd = "%s%s -- %s" % (mxmlc_bin, flags, entry)
+			flags = " ".join(self.mxmlc_flags) + " "
+		cmd = "%s %s-- %s" % (mxmlc_bin, flags, entry)
 		print cmd
 		popen = subprocess.Popen(shlex.split(cmd), stdout = subprocess.PIPE, stderr = subprocess.PIPE)
 		return popen.communicate()
@@ -58,7 +56,6 @@ class FlakeProject(object):
 	def build(self):
 		opts = self.popts
 		entry = opts.get("build", "entry")
-		
 		self.flag("-output " + opts.get("build","output",type=str))
 		self.flag("-target-player=" + opts.get("build","flash-version",type=str))
 		self.flag("-debug=" + str(opts.get("build","debug",type=bool)).lower())
@@ -66,21 +63,24 @@ class FlakeProject(object):
 			opts.get("build", "movie", "width",  type=int),
 			opts.get("build", "movie", "height", type=int)))
 		self.flag("-default-frame-rate %d" % opts.get("build", "movie", "fps", type=int))
-		self.flag("-default-background-color " + opts.get("build", "movie", "bg", type=int))
+		self.flag("-default-background-color " + opts.get("build", "movie", "bg", type=str))
 		# fixes some weird issue with the Flex SDK 4.0
 		self.flag("-static-link-runtime-shared-libraries=true")
+		self.flag(opts.get("build", "mxmlc-options", type=str))
 		
 		ret = self.invoke_mxmlc(entry)
 		print ret[0]
 		if len(ret[1]):
 			print ret[1]
+			return False
+		return True
 		
 	def run(self):
 		pass
 		
 	def test(self):
 		if (self.build()):
-			self.test()
+			self.run()
 			
 	def create_mxmlc_flags(self):
 		pass
