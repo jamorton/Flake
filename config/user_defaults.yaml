@@ -2,7 +2,8 @@
 # These are the defaults for a user's settings that are
 # automatically loaded, and then overridden by the project's settings
 
-flex-path:
+flex-path: ""
+player-path: ""
 
 flake-files:
   - Flakefile

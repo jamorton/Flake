@@ -58,6 +58,7 @@ class YamlOptions(object):
 			try:
 				ret = kwargs["type"](ret)
 			except:
+				# XXX: we might want to raise an error if an option isn't the correct type
 				return self.get_default(args)
 		return ret
 
@@ -93,9 +94,13 @@ class UserOptions(YamlOptions):
 		else:
 			try:
 				with open(optpath, "w") as f:
+					print "Note: creating a user options file at:"
+					print optpath
+					print "Be sure to edit it accordingly."
 					f.write("\n# Please set this value to the location of your Flex SDK\n")
-					f.write("flex-path: \n\n")
+					f.write("flex-path: \n\n# Set this to the path to your flash player\n")
+					f.write("player-path: \n\n")
 			except:
-				pass
+				print "Warning: could not create a default user options file"
 		
 

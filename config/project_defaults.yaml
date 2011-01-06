@@ -21,7 +21,7 @@ build:
    cmds-before: []
    cmds-after:  []
    
-   mxmlc-options:
+   mxmlc-options: ""
   
    default_target: debug
    
