@@ -1,6 +1,6 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 import flake
-
+import shutil
 setup(
 	name = "Flake",
 	description = "AS3 building and testing system",
@@ -16,6 +16,10 @@ setup(
 	),
 	
 	package_data = {
-		"flake": ["*.yaml"]
+		"flake": ["config/*.yaml"]
 	}
 )
+
+shutil.rmtree("dist")
+shutil.rmtree("Flake.egg-info")
+shutil.rmtree("build")
