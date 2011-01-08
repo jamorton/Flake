@@ -120,10 +120,12 @@ def run():
 	 "run": project.run
 	}[commands.action]()
 	
-
-if __name__ == "__main__":
+def start():
 	try:
 		run()
 	except SystemExit:
 		print "Exiting..."
+
+if __name__ == "__main__":
+	start()
 
